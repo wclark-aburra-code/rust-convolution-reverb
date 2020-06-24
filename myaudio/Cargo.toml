@@ -1,0 +1,14 @@
+[package]
+name = "myaudio"
+version = "0.1.0"
+authors = ["Billy Clark <billy@evolutionenv.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+hound = "3.4.0"
+num = "0.2.0"
+rustfft = "3.0.0"
+num-traits = "0.2.8"
+math = "0.0.2"
