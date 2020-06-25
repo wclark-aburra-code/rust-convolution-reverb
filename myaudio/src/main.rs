@@ -214,28 +214,3 @@ fn main() {
     let (wet_signal, normalization_factor) = convolve(dry_signal, ir_signal);
     write_normalized_signal(wet_signal, normalization_factor, "correct0.wav");
 }
-
-// To Do:
-// normalization process is flawed  -- a filtered signal will often have less maximum amplitude than a dry signal. what is the usual DSP filter normalization process: it depends on the length of the IR, no?
-// allow for different window sizes, for short IRs
-// struct + enum types for wave signal: we want to cover cases for stereo, 5.1, etc
-//      - what's the best approach to convolve stereo signal w mono impulse response, vice versa, and so on?
-// Option<T> return type for next() function in implementation of SignalBuffer
-// less usize <-> int casting? is this slowing me down?
-// 0.0 vs 0f32 ... consistency
-// better iterations -- there are some optimized iterators I'm not using here yet. Zip iterator would maybe help for mutable multple-vector loops
-// maybe we can replace padded() with a similar numerical vector function, from a library
-// double check -- are we really doing no DMA, no I/O, etc, in body of processing for-loop?
-//      - NO! we output the iteration index with println!... this should be for debug mode only
-//          - can we have a macro or compiler directive to only include these println! statements for non "release" builds?
-// function signatures for better organization, like C++? better yet, organize code into different files
-// write_normalized_signal should take result by reference, borrowing it, no? doesn't need move ownership, as we don't change it
-// why not store IR's in a file format that stores phasors resulting from FFT, in an array of complex pairs?
-// isolate the body of the main processing for-loop (approx ln 133, "for j in 0..num_sections")
-//      - can this be encapsulated in a function w/ smart pointers, to be reusable in a real-time filter w/ pre-computed complex IR filter kernel?
-
-
-// for problem with DMA for new complex values in process loop
-//      try this instead of insert, for inserting complex values:
-//      implement struct SignalBuffer<Complex<f32>>... type-specific implementation?
-//         insert_real(f32),  insert_complex( (f32, f32) )....  it sets those real and imaginary values directly
